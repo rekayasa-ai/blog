@@ -15,7 +15,7 @@ import ArticleSchema from '@/components/seo/ArticleSchema';
 import AIAnalogy from '@/components/mdx/AIAnalogy';
 import ProTip from '@/components/mdx/ProTip';
 import CodeBlock from '@/components/mdx/CodeBlock';
-import AdSlot from '@/components/mdx/AdSlot';
+import AdSlot, { PopunderAd, SmartLink } from '@/components/mdx/AdSlot';
 
 interface PostPageProps {
     params: Promise<{
@@ -30,6 +30,7 @@ const mdxComponents = {
     ProTip,
     CodeBlock,
     AdSlot,
+    SmartLink,
     // Override default elements
     pre: ({ children, ...props }: React.HTMLAttributes<HTMLPreElement>) => (
         <pre {...props} className="!bg-slate-900 !rounded-2xl !p-0 overflow-hidden !border !border-slate-800/50">
@@ -161,8 +162,16 @@ export default async function PostPage({ params }: PostPageProps) {
                         />
                     </div>
 
-                    {/* Ad Slot - Bottom */}
-                    <AdSlot type="in-article" className="mt-12" />
+                    {/* Ad Slot - Native Banner */}
+                    <AdSlot type="native-banner" className="mt-12" />
+
+                    {/* Sponsored Link */}
+                    <div className="mt-6 text-center">
+                        <SmartLink className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-electric transition-colors">
+                            <span className="px-2 py-0.5 bg-slate-100 rounded text-xs font-medium">Sponsored</span>
+                            Lihat penawaran menarik lainnya →
+                        </SmartLink>
+                    </div>
 
                     {/* Author Box */}
                     <div className="mt-14 p-8 bg-slate-50 rounded-2xl border border-slate-100">
@@ -250,10 +259,13 @@ export default async function PostPage({ params }: PostPageProps) {
                 </section>
             )}
 
-            {/* Ad Slot - Video (before footer) */}
+            {/* Native Banner Ad (before footer) */}
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-                <AdSlot type="video" />
+                <AdSlot type="native-banner" />
             </div>
+
+            {/* Popunder Ad (loads once) */}
+            <PopunderAd />
         </>
     );
 }

@@ -1,88 +1,105 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Script from 'next/script';
+
+type AdType = 'native-banner' | 'banner' | 'social-bar';
 
 interface AdSlotProps {
-    type?: 'banner' | 'sidebar' | 'in-article' | 'video' | 'native';
+    type?: AdType;
     className?: string;
 }
 
 // Adsterra ad configurations
-// You need to get these script URLs from your Adsterra dashboard for each ad format
-const adConfig: Record<string, { minHeight: string; adKey?: string; adWidth?: number; adHeight?: number }> = {
+const adConfig: Record<AdType, { minHeight: string; width?: number; height?: number }> = {
+    'native-banner': {
+        minHeight: '250px',
+    },
     banner: {
         minHeight: '90px',
-        adKey: process.env.NEXT_PUBLIC_ADSTERRA_BANNER_KEY,
-        adWidth: 728,
-        adHeight: 90,
+        width: 728,
+        height: 90,
     },
-    sidebar: {
-        minHeight: '250px',
-        adKey: process.env.NEXT_PUBLIC_ADSTERRA_SIDEBAR_KEY,
-        adWidth: 300,
-        adHeight: 250,
-    },
-    'in-article': {
-        minHeight: '120px',
-        adKey: process.env.NEXT_PUBLIC_ADSTERRA_INARTICLE_KEY,
-        adWidth: 468,
-        adHeight: 60,
-    },
-    video: {
-        minHeight: '280px',
-        adKey: process.env.NEXT_PUBLIC_ADSTERRA_VIDEO_KEY,
-        adWidth: 640,
-        adHeight: 360,
-    },
-    native: {
-        minHeight: '250px',
-        adKey: process.env.NEXT_PUBLIC_ADSTERRA_NATIVE_KEY,
+    'social-bar': {
+        minHeight: '50px',
+        width: 320,
+        height: 50,
     },
 };
 
 export default function AdSlot({ type = 'banner', className = '' }: AdSlotProps) {
     const adContainerRef = useRef<HTMLDivElement>(null);
+    const [isClient, setIsClient] = useState(false);
     const config = adConfig[type];
 
+    // Get the appropriate ad key based on type
+    const getAdKey = () => {
+        switch (type) {
+            case 'native-banner':
+                return process.env.NEXT_PUBLIC_ADSTERRA_NATIVE_KEY;
+            case 'banner':
+                return process.env.NEXT_PUBLIC_ADSTERRA_BANNER_KEY;
+            case 'social-bar':
+                return process.env.NEXT_PUBLIC_ADSTERRA_SOCIAL_KEY;
+            default:
+                return null;
+        }
+    };
+
+    const adKey = getAdKey();
+
     useEffect(() => {
-        // Only run on client and if ad key is configured
-        if (!config.adKey || !adContainerRef.current) return;
+        setIsClient(true);
+    }, []);
 
-        // Create the ad script
-        const script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.async = true;
+    useEffect(() => {
+        if (!isClient || !adKey || !adContainerRef.current) return;
 
-        // Adsterra Display Ads script format
-        script.src = `//www.highperformanceformat.com/${config.adKey}/invoke.js`;
+        // Clear previous content
+        adContainerRef.current.innerHTML = '';
 
-        // Create the ad options
-        const optionsScript = document.createElement('script');
-        optionsScript.type = 'text/javascript';
-        optionsScript.innerHTML = `
-            atOptions = {
-                'key': '${config.adKey}',
-                'format': '${type === 'native' ? 'native' : 'iframe'}',
-                'height': ${config.adHeight || 250},
-                'width': ${config.adWidth || 300},
-                'params': {}
-            };
-        `;
+        if (type === 'native-banner') {
+            // Native Banner uses different format with container div
+            const container = document.createElement('div');
+            container.id = `container-${adKey}`;
+            adContainerRef.current.appendChild(container);
 
-        // Append scripts to the container
-        adContainerRef.current.appendChild(optionsScript);
-        adContainerRef.current.appendChild(script);
+            const script = document.createElement('script');
+            script.async = true;
+            script.setAttribute('data-cfasync', 'false');
+            script.src = `https://pl28621946.effectivegatecpm.com/${adKey}/invoke.js`;
+            adContainerRef.current.appendChild(script);
+        } else {
+            // Banner uses atOptions format
+            const optionsScript = document.createElement('script');
+            optionsScript.type = 'text/javascript';
+            optionsScript.innerHTML = `
+                atOptions = {
+                    'key' : '${adKey}',
+                    'format' : 'iframe',
+                    'height' : ${config.height || 250},
+                    'width' : ${config.width || 300},
+                    'params' : {}
+                };
+            `;
+            adContainerRef.current.appendChild(optionsScript);
 
-        // Cleanup on unmount
+            const invokeScript = document.createElement('script');
+            invokeScript.type = 'text/javascript';
+            invokeScript.src = `//www.highperformanceformat.com/${adKey}/invoke.js`;
+            invokeScript.async = true;
+            adContainerRef.current.appendChild(invokeScript);
+        }
+
         return () => {
             if (adContainerRef.current) {
                 adContainerRef.current.innerHTML = '';
             }
         };
-    }, [config.adKey, type]);
+    }, [isClient, adKey, type, config]);
 
-    // Show placeholder if no ad key is configured
-    if (!config.adKey) {
+    // Show placeholder if no ad key is configured or not on client
+    if (!isClient || !adKey) {
         return (
             <div
                 className={`ad-slot rounded-xl border-2 border-dashed border-slate-200 bg-slate-50/50 flex flex-col items-center justify-center gap-2 ${className}`}
@@ -101,8 +118,74 @@ export default function AdSlot({ type = 'banner', className = '' }: AdSlotProps)
     return (
         <div
             ref={adContainerRef}
-            className={`ad-slot flex items-center justify-center ${className}`}
+            className={`ad-slot flex items-center justify-center overflow-hidden ${className}`}
             style={{ minHeight: config.minHeight }}
+        />
+    );
+}
+
+// Popunder Ad component (runs once on page load)
+export function PopunderAd() {
+    const popunderKey = process.env.NEXT_PUBLIC_ADSTERRA_POPUNDER_KEY;
+
+    if (!popunderKey) return null;
+
+    return (
+        <Script
+            id="adsterra-popunder"
+            strategy="afterInteractive"
+            src={`//www.highperformanceformat.com/${popunderKey}/invoke.js`}
+        />
+    );
+}
+
+// Smart Link component (affiliate links)
+export function SmartLink({
+    children,
+    className = ''
+}: {
+    children: React.ReactNode;
+    className?: string;
+}) {
+    const smartLinkUrl = process.env.NEXT_PUBLIC_ADSTERRA_SMARTLINK_URL;
+
+    if (!smartLinkUrl) {
+        return <span className={className}>{children}</span>;
+    }
+
+    return (
+        <a
+            href={smartLinkUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={className}
+        >
+            {children}
+        </a>
+    );
+}
+
+// Social Bar component (fixed position bar)
+export function SocialBar() {
+    const socialBarKey = process.env.NEXT_PUBLIC_ADSTERRA_SOCIAL_KEY;
+
+    if (!socialBarKey) return null;
+
+    return (
+        <Script
+            id="adsterra-social-bar"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+                __html: `
+                    atOptions = {
+                        'key' : '${socialBarKey}',
+                        'format' : 'iframe',
+                        'height' : 50,
+                        'width' : 320,
+                        'params' : {}
+                    };
+                `
+            }}
         />
     );
 }
