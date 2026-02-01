@@ -15,7 +15,7 @@ import ArticleSchema from '@/components/seo/ArticleSchema';
 import AIAnalogy from '@/components/mdx/AIAnalogy';
 import ProTip from '@/components/mdx/ProTip';
 import CodeBlock from '@/components/mdx/CodeBlock';
-import AdSlot, { PopunderAd, SmartLink } from '@/components/mdx/AdSlot';
+import AdSlot, { PopunderAd, SmartLink, SocialBar } from '@/components/mdx/AdSlot';
 
 interface PostPageProps {
     params: Promise<{
@@ -33,7 +33,7 @@ const mdxComponents = {
     SmartLink,
     // Override default elements
     pre: ({ children, ...props }: React.HTMLAttributes<HTMLPreElement>) => (
-        <pre {...props} className="!bg-slate-900 !rounded-2xl !p-0 overflow-hidden !border !border-slate-800/50">
+        <pre {...props} className="!bg-slate-900 !rounded-none !p-0 overflow-hidden !border !border-slate-800/50">
             {children}
         </pre>
     ),
@@ -149,7 +149,7 @@ export default async function PostPage({ params }: PostPageProps) {
                     )}
 
                     {/* MDX Content */}
-                    <div className="prose prose-lg max-w-none">
+                    <div className="prose prose-sm sm:prose-lg max-w-none">
                         <MDXRemote
                             source={post.content}
                             components={mdxComponents}
@@ -266,6 +266,9 @@ export default async function PostPage({ params }: PostPageProps) {
 
             {/* Popunder Ad (loads once) */}
             <PopunderAd />
+
+            {/* Social Bar Ad (article pages only) */}
+            <SocialBar />
         </>
     );
 }

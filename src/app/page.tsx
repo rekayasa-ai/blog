@@ -25,7 +25,7 @@ export default async function HomePage() {
         <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-gradient-to-tl from-violet-500/5 via-transparent to-transparent rounded-full blur-3xl" />
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-16">
+          <div className="text-center mb-8">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-slate-900 mb-8 tracking-tight leading-[1.1]">
               Baca. Pelajari.{' '}
               <span className="relative">
@@ -41,26 +41,10 @@ export default async function HomePage() {
                 </svg>
               </span>
             </h1>
-            <p className="text-slate-600 max-w-2xl mx-auto text-lg sm:text-xl leading-relaxed mb-10">
+            <p className="text-slate-600 max-w-2xl mx-auto text-lg sm:text-xl leading-relaxed">
               Berita AI terkini, tutorial mendalam, dan artikel berkualitas
-              seputar kecerdasan buatan — khusus untuk komunitas Indonesia.
+              seputar kecerdasan buatan khusus untuk komunitas Indonesia.
             </p>
-
-            {/* Stats */}
-            <div className="flex flex-wrap justify-center gap-8 sm:gap-12 mb-12">
-              <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-slate-900 mb-1">100+</div>
-                <div className="text-sm text-slate-500">Artikel</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-slate-900 mb-1">5K+</div>
-                <div className="text-sm text-slate-500">Pembaca</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-slate-900 mb-1">3</div>
-                <div className="text-sm text-slate-500">Kategori</div>
-              </div>
-            </div>
           </div>
 
           {/* Category Pills */}

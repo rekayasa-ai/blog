@@ -168,17 +168,6 @@ export default function BlogNavbar() {
                                 );
                             })}
                         </div>
-
-                        {/* Back to Main Site */}
-                        <div className="flex-shrink-0 p-4 bg-slate-50 border-t border-slate-100">
-                            <a
-                                href="https://rekayasaai.space"
-                                className="flex items-center justify-center gap-2 px-6 py-3.5 bg-slate-900 text-white font-semibold rounded-xl hover:bg-slate-800 transition-colors"
-                            >
-                                Kembali ke Rekayasa AI
-                                <ExternalLink className="w-4 h-4" />
-                            </a>
-                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>

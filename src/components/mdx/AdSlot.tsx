@@ -167,25 +167,11 @@ export function SmartLink({
 
 // Social Bar component (fixed position bar)
 export function SocialBar() {
-    const socialBarKey = process.env.NEXT_PUBLIC_ADSTERRA_SOCIAL_KEY;
-
-    if (!socialBarKey) return null;
-
     return (
         <Script
             id="adsterra-social-bar"
             strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-                __html: `
-                    atOptions = {
-                        'key' : '${socialBarKey}',
-                        'format' : 'iframe',
-                        'height' : 50,
-                        'width' : 320,
-                        'params' : {}
-                    };
-                `
-            }}
+            src="https://pl28623810.effectivegatecpm.com/a8/dd/22/a8dd2252d768d071d06bd30e4bac231a.js"
         />
     );
 }

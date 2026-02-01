@@ -16,7 +16,7 @@ export default function BlogFooter() {
                             <span className="text-slate-400 font-normal ml-1">/blog</span>
                         </Link>
                         <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
-                            Blog resmi Rekayasa AI — Sumber terpercaya untuk berita, tutorial,
+                            Blog resmi Rekayasa AI. Sumber terpercaya untuk berita, tutorial,
                             dan artikel AI untuk komunitas Indonesia.
                         </p>
                     </div>

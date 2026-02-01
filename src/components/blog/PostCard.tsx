@@ -22,9 +22,9 @@ export default function PostCard({ post, index = 0, featured = false }: PostCard
                 transition={{ delay: index * 0.1, duration: 0.5 }}
                 className="card overflow-hidden group"
             >
-                <Link href={`/${post.category}/${post.slug}`} className="grid lg:grid-cols-2 gap-0">
+                <Link href={`/${post.category}/${post.slug}`} className="block sm:grid sm:grid-cols-2 lg:grid-cols-2 gap-0">
                     {/* Image */}
-                    <div className="aspect-video lg:aspect-auto bg-gradient-to-br from-slate-100 to-slate-50 relative min-h-[240px] sm:min-h-[320px]">
+                    <div className="aspect-video lg:aspect-auto bg-gradient-to-br from-slate-100 to-slate-50 relative min-h-[180px] sm:min-h-[320px]">
                         {post.coverImage ? (
                             <img
                                 src={post.coverImage}
@@ -46,24 +46,24 @@ export default function PostCard({ post, index = 0, featured = false }: PostCard
                     </div>
 
                     {/* Content */}
-                    <div className="p-8 lg:p-10 flex flex-col justify-center">
-                        {/* Category */}
+                    <div className="p-5 sm:p-8 lg:p-10 flex flex-col justify-center">
+                        {/* Category Badge */}
                         {category && (
-                            <div className="mb-4">
-                                <span className={`inline-flex px-3 py-1 ${category.color} text-xs font-semibold rounded-full`}>
+                            <div className="mb-3">
+                                <span className={`inline-flex px-2.5 py-1 ${category.color} text-xs font-semibold rounded-full`}>
                                     {category.nameBahasa}
                                 </span>
                             </div>
                         )}
 
-                        {/* Meta */}
-                        <div className="flex items-center gap-3 text-sm text-slate-500 mb-4">
-                            <div className="flex items-center gap-1.5">
-                                <Calendar className="w-4 h-4" />
+                        {/* Meta - Date and reading time */}
+                        <div className="flex items-center gap-2 text-xs text-slate-500 mb-3 sm:mb-4">
+                            <div className="flex items-center gap-1">
+                                <Calendar className="w-3 h-3" />
                                 <span>
                                     {new Date(post.publishedAt).toLocaleDateString('id-ID', {
                                         day: 'numeric',
-                                        month: 'long',
+                                        month: 'short',
                                         year: 'numeric'
                                     })}
                                 </span>
@@ -71,8 +71,8 @@ export default function PostCard({ post, index = 0, featured = false }: PostCard
                             {post.readingTime && (
                                 <>
                                     <span className="text-slate-300">•</span>
-                                    <div className="flex items-center gap-1.5">
-                                        <Clock className="w-4 h-4" />
+                                    <div className="flex items-center gap-1">
+                                        <Clock className="w-3 h-3" />
                                         <span>{post.readingTime}</span>
                                     </div>
                                 </>
@@ -80,17 +80,17 @@ export default function PostCard({ post, index = 0, featured = false }: PostCard
                         </div>
 
                         {/* Title */}
-                        <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-4 leading-tight group-hover:text-electric transition-colors duration-300">
+                        <h2 className="text-base sm:text-2xl lg:text-3xl font-bold text-slate-900 mb-3 sm:mb-4 leading-snug group-hover:text-electric transition-colors duration-300">
                             {post.title}
                         </h2>
 
-                        {/* Excerpt */}
-                        <p className="text-slate-600 mb-6 leading-relaxed line-clamp-3">
+                        {/* Excerpt - 2 lines with ellipsis on mobile */}
+                        <p className="text-slate-600 text-sm sm:text-base leading-relaxed line-clamp-2 mb-3 sm:mb-6">
                             {post.excerpt}
                         </p>
 
                         {/* CTA */}
-                        <div className="flex items-center gap-2 text-electric font-semibold group-hover:gap-3 transition-all duration-300">
+                        <div className="flex items-center gap-2 text-electric font-semibold text-sm sm:text-base group-hover:gap-3 transition-all duration-300 mt-3 sm:mt-4">
                             Baca Selengkapnya
                             <ArrowRight className="w-4 h-4" />
                         </div>
