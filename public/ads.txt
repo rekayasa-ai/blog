@@ -1,0 +1,19 @@
+# ads.txt - Authorized Digital Sellers
+# ====================================
+# This file is used to declare authorized sellers for your ad inventory.
+# Replace the placeholders below with your actual ad network credentials.
+#
+# Format: <Domain>, <Publisher ID>, <Account Type>, <Certification Authority ID>
+#
+# Examples:
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+# adsterra.com, XXXXXXXX, DIRECT
+# mgid.com, XXXXXXXX, DIRECT
+
+# Google AdSense (uncomment and replace when ready)
+# google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
+
+# Adsterra (uncomment and replace when ready)
+# adsterra.com, 000000, DIRECT
+
+# Add your authorized sellers below:
