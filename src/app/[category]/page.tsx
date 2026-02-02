@@ -6,6 +6,9 @@ import { generateCategoryMetadata } from '@/lib/metadata';
 import { CATEGORIES } from '@/types/content';
 import PostCard from '@/components/blog/PostCard';
 
+// Revalidate every 60 seconds - enables ISR for fresh content without redeployment
+export const revalidate = 60;
+
 const iconMap: Record<string, React.ElementType> = {
     Newspaper,
     FileText,

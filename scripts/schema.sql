@@ -1,5 +1,6 @@
--- Supabase Schema for Rekayasa AI Blog
+-- Supabase Schema for Rekayasa AI Blog (Simplified)
 -- Run this in Supabase SQL Editor
+-- Tags are now stored as TEXT[] array directly in posts table
 
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -15,13 +16,7 @@ CREATE TABLE IF NOT EXISTS authors (
         TIME ZONE DEFAULT NOW ()
 );
 
--- Tags table
-CREATE TABLE IF NOT EXISTS tags (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4 (),
-    name TEXT NOT NULL UNIQUE
-);
-
--- Posts table
+-- Posts table (with tags as array)
 CREATE TABLE IF NOT EXISTS posts (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4 (),
     slug TEXT NOT NULL,
@@ -44,6 +39,7 @@ CREATE TABLE IF NOT EXISTS posts (
     excerpt TEXT NOT NULL,
     content TEXT NOT NULL,
     cover_image TEXT,
+    tags TEXT [] DEFAULT '{}',
     published_at TIMESTAMP
     WITH
         TIME ZONE NOT NULL,
@@ -59,13 +55,6 @@ CREATE TABLE IF NOT EXISTS posts (
         UNIQUE (category, slug)
 );
 
--- Post-Tags junction table
-CREATE TABLE IF NOT EXISTS post_tags (
-    post_id UUID REFERENCES posts (id) ON DELETE CASCADE,
-    tag_id UUID REFERENCES tags (id) ON DELETE CASCADE,
-    PRIMARY KEY (post_id, tag_id)
-);
-
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_posts_category ON posts (category);
 
@@ -75,24 +64,17 @@ CREATE INDEX IF NOT EXISTS idx_posts_published_at ON posts (published_at DESC);
 
 CREATE INDEX IF NOT EXISTS idx_posts_slug ON posts (slug);
 
+-- GIN index for tags array search
+CREATE INDEX IF NOT EXISTS idx_posts_tags ON posts USING GIN (tags);
+
 -- Enable Row Level Security (optional but recommended)
 ALTER TABLE authors ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE posts ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE tags ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE post_tags ENABLE ROW LEVEL SECURITY;
 
 -- Allow public read access
 CREATE POLICY "Allow public read access on authors" ON authors FOR
 SELECT USING (true);
 
 CREATE POLICY "Allow public read access on posts" ON posts FOR
-SELECT USING (true);
-
-CREATE POLICY "Allow public read access on tags" ON tags FOR
-SELECT USING (true);
-
-CREATE POLICY "Allow public read access on post_tags" ON post_tags FOR
 SELECT USING (true);

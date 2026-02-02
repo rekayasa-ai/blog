@@ -29,17 +29,8 @@ export interface DbPost {
     reading_time: string | null;
     author_id: string;
     created_at: string;
+    // Tags stored as array directly in posts table
+    tags: string[] | null;
     // Joined data
     author?: DbAuthor;
-    tags?: DbTag[];
-}
-
-export interface DbTag {
-    id: string;
-    name: string;
-}
-
-export interface DbPostTag {
-    post_id: string;
-    tag_id: string;
 }

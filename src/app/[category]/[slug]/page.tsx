@@ -12,8 +12,12 @@ import { generatePostMetadata } from '@/lib/metadata';
 import PostHeader from '@/components/blog/PostHeader';
 import PostCard from '@/components/blog/PostCard';
 import ArticleSchema from '@/components/seo/ArticleSchema';
+
+// Revalidate every 60 seconds - enables ISR for fresh content without redeployment
+export const revalidate = 60;
 import AIAnalogy from '@/components/mdx/AIAnalogy';
 import ProTip from '@/components/mdx/ProTip';
+import KeyTakeaway from '@/components/mdx/KeyTakeaway';
 import CodeBlock from '@/components/mdx/CodeBlock';
 import AdSlot, { PopunderAd, SmartLink, SocialBar } from '@/components/mdx/AdSlot';
 
@@ -28,6 +32,7 @@ interface PostPageProps {
 const mdxComponents = {
     AIAnalogy,
     ProTip,
+    KeyTakeaway,
     CodeBlock,
     AdSlot,
     SmartLink,

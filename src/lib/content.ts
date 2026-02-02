@@ -1,12 +1,10 @@
-import { supabase, DbPost, DbTag } from './supabase';
+import { supabase, DbPost } from './supabase';
 import { Post, PostMeta, CATEGORIES, CategoryConfig, Author } from '@/types/content';
 
 /**
  * Transform database post to PostMeta format
  */
-function transformToPostMeta(dbPost: DbPost & { author: { name: string; avatar?: string | null; bio?: string | null } | null; post_tags: { tags: { name: string } }[] }): PostMeta {
-    const tags = dbPost.post_tags?.map(pt => pt.tags.name) || [];
-
+function transformToPostMeta(dbPost: DbPost & { author: { name: string; avatar?: string | null; bio?: string | null } | null }): PostMeta {
     return {
         title: dbPost.title,
         slug: dbPost.slug,
@@ -20,7 +18,7 @@ function transformToPostMeta(dbPost: DbPost & { author: { name: string; avatar?:
             bio: dbPost.author?.bio || undefined,
         },
         coverImage: dbPost.cover_image || undefined,
-        tags,
+        tags: dbPost.tags || [],
         featured: dbPost.featured,
         readingTime: dbPost.reading_time || undefined,
         articleType: dbPost.article_type || undefined,
@@ -30,7 +28,7 @@ function transformToPostMeta(dbPost: DbPost & { author: { name: string; avatar?:
 /**
  * Transform database post to full Post format
  */
-function transformToPost(dbPost: DbPost & { author: { name: string; avatar?: string | null; bio?: string | null } | null; post_tags: { tags: { name: string } }[] }): Post {
+function transformToPost(dbPost: DbPost & { author: { name: string; avatar?: string | null; bio?: string | null } | null }): Post {
     return {
         ...transformToPostMeta(dbPost),
         content: dbPost.content,
@@ -45,8 +43,7 @@ export async function getPostsByCategory(category: string): Promise<PostMeta[]> 
         .from('posts')
         .select(`
             *,
-            author:authors(*),
-            post_tags(tags(*))
+            author:authors(*)
         `)
         .eq('category', category)
         .order('published_at', { ascending: false });
@@ -67,8 +64,7 @@ export async function getAllPosts(): Promise<PostMeta[]> {
         .from('posts')
         .select(`
             *,
-            author:authors(*),
-            post_tags(tags(*))
+            author:authors(*)
         `)
         .order('published_at', { ascending: false });
 
@@ -88,8 +84,7 @@ export async function getFeaturedPosts(limit = 5): Promise<PostMeta[]> {
         .from('posts')
         .select(`
             *,
-            author:authors(*),
-            post_tags(tags(*))
+            author:authors(*)
         `)
         .eq('featured', true)
         .order('published_at', { ascending: false })
@@ -111,8 +106,7 @@ export async function getRecentPosts(limit = 10): Promise<PostMeta[]> {
         .from('posts')
         .select(`
             *,
-            author:authors(*),
-            post_tags(tags(*))
+            author:authors(*)
         `)
         .order('published_at', { ascending: false })
         .limit(limit);
@@ -133,8 +127,7 @@ export async function getPostBySlug(category: string, slug: string): Promise<Pos
         .from('posts')
         .select(`
             *,
-            author:authors(*),
-            post_tags(tags(*))
+            author:authors(*)
         `)
         .eq('category', category)
         .eq('slug', slug)
@@ -183,8 +176,7 @@ export async function getRelatedPosts(
         .from('posts')
         .select(`
             *,
-            author:authors(*),
-            post_tags(tags(*))
+            author:authors(*)
         `)
         .eq('category', category)
         .neq('slug', currentSlug)
