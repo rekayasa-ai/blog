@@ -123,13 +123,6 @@ export default function PostCard({ post, index = 0, featured = false }: PostCard
                             </div>
                         </div>
                     )}
-                    {category && (
-                        <div className="absolute top-3 left-3">
-                            <span className={`px-2.5 py-1 ${category.color} text-xs font-semibold rounded-full backdrop-blur-sm`}>
-                                {category.nameBahasa}
-                            </span>
-                        </div>
-                    )}
                 </div>
 
                 {/* Content */}

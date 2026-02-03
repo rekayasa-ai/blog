@@ -126,15 +126,11 @@ export default function AdSlot({ type = 'banner', className = '' }: AdSlotProps)
 
 // Popunder Ad component (runs once on page load)
 export function PopunderAd() {
-    const popunderKey = process.env.NEXT_PUBLIC_ADSTERRA_POPUNDER_KEY;
-
-    if (!popunderKey) return null;
-
     return (
         <Script
             id="adsterra-popunder"
             strategy="afterInteractive"
-            src={`//www.highperformanceformat.com/${popunderKey}/invoke.js`}
+            src="https://pl28636005.effectivegatecpm.com/ef/22/69/ef22693b2b254e459eb5901c7680ab08.js"
         />
     );
 }
