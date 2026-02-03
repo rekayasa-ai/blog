@@ -13,18 +13,15 @@ export default function PostHeader({ post }: PostHeaderProps) {
         <header className="mb-12">
             {/* Breadcrumb */}
             <nav className="flex items-center gap-1.5 text-sm text-slate-500 mb-8">
-                <Link href="/" className="hover:text-electric transition-colors">
+                <span className="text-slate-500">
                     Blog
-                </Link>
+                </span>
                 <ChevronRight className="w-4 h-4 text-slate-300" />
                 {category && (
                     <>
-                        <Link
-                            href={`/${category.slug}`}
-                            className="hover:text-electric transition-colors"
-                        >
+                        <span className="text-slate-500">
                             {category.nameBahasa}
-                        </Link>
+                        </span>
                         <ChevronRight className="w-4 h-4 text-slate-300" />
                     </>
                 )}

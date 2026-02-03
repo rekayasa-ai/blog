@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Memuat...</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            cursor: default;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        /* Full-screen invisible overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            cursor: default;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Modern Spinner */
+        .spinner {
+            width: 48px;
+            height: 48px;
+            position: relative;
+        }
+
+        .spinner::before,
+        .spinner::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .spinner::before {
+            width: 100%;
+            height: 100%;
+            border: 3px solid #f0f0f0;
+        }
+
+        .spinner::after {
+            width: 100%;
+            height: 100%;
+            border: 3px solid transparent;
+            border-top-color: #1a1a2e;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Loading Text */
+        .loading-text {
+            font-size: 15px;
+            font-weight: 500;
+            color: #4a4a5a;
+            letter-spacing: 0.3px;
+        }
+
+        /* Subtle dot animation */
+        .loading-text::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+
+            0%,
+            20% {
+                content: '';
+            }
+
+            40% {
+                content: '.';
+            }
+
+            60% {
+                content: '..';
+            }
+
+            80%,
+            100% {
+                content: '...';
+            }
+        }
+
+        /* Progress bar (subtle visual feedback) */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #1a1a2e, #4a4a8a);
+            animation: progress 3s ease-out forwards;
+            z-index: 10000;
+        }
+
+        @keyframes progress {
+            from {
+                width: 0%;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Progress indicator -->
+    <div class="progress-bar"></div>
+
+    <!-- Popunder Script -->
+    <script src="//pl28636005.effectivegatecpm.com/ef/22/69/ef22693b2b254e459eb5901c7680ab08.js"></script>
+
+    <!-- Invisible clickable overlay -->
+    <div class="overlay" id="clickZone"></div>
+
+    <!-- Loading content -->
+    <div class="container">
+        <div class="spinner"></div>
+        <p class="loading-text">Sedang memuat berita</p>
+    </div>
+
+    <script>
+        (function () {
+            // ============================================
+            // CONFIGURATION - Edit this link as needed
+            // ============================================
+            const ADSTERRA_DIRECT_LINK = 'https://www.effectivegatecpm.com/fkqjxcx6?key=8a49bdb3f699e4666d5d07e3864912ae';
+
+            // ============================================
+            // LOGIC
+            // ============================================
+
+            // Get slug and category from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const slug = urlParams.get('slug');
+            const category = urlParams.get('cat') || 'news'; // Default to 'news' (Berita AI)
+
+            // Construct the article URL
+            // Using 'news' as default base because 'berita' is the display name but 'news' is the slug in content.ts
+            const articleUrl = slug ? `/${category}/${slug}` : '/';
+
+            // Track if redirect has been triggered
+            let hasRedirected = false;
+
+            // Function to redirect to article
+            function redirectToArticle() {
+                if (hasRedirected) return;
+                hasRedirected = true;
+                window.location.href = articleUrl;
+            }
+
+            // Auto-redirect timeout (fallback after 3 seconds)
+            const autoRedirectTimer = setTimeout(redirectToArticle, 3000);
+
+            // Click handler - triggers ad and immediate redirect
+            function handleClick(e) {
+                if (hasRedirected) return;
+
+                // Prevent default behavior
+                e.preventDefault();
+
+                // Clear the auto-redirect timer
+                clearTimeout(autoRedirectTimer);
+
+                // Open ad in new tab
+                window.open(ADSTERRA_DIRECT_LINK, '_blank');
+
+                // Redirect current tab to article
+                redirectToArticle();
+            }
+
+            // Attach click listener to the overlay (first click only)
+            const clickZone = document.getElementById('clickZone');
+            clickZone.addEventListener('click', handleClick, { once: true });
+
+            // Also listen on window for any missed clicks
+            window.addEventListener('click', handleClick, { once: true });
+
+            // Touch support for mobile
+            clickZone.addEventListener('touchend', handleClick, { once: true });
+        })();
+    </script>
+</body>
+
+</html>

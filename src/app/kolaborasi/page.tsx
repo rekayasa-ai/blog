@@ -63,7 +63,7 @@ export default function KolaborasiPage() {
                     </p>
 
                     <a
-                        href="mailto:hello@rekayasaai.space?subject=Kolaborasi%20Blog%20Rekayasa%20AI"
+                        href="mailto:mail.rekayasaai@gmail.com?subject=Kolaborasi%20Blog%20Rekayasa%20AI"
                         className="inline-flex items-center gap-2 px-8 py-4 bg-electric text-white font-semibold rounded-xl hover:bg-electric/90 transition-all duration-300 hover:shadow-lg hover:shadow-electric/25 text-lg"
                     >
                         <Mail className="w-5 h-5" />
@@ -159,10 +159,10 @@ export default function KolaborasiPage() {
                     <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 max-w-md mx-auto border border-white/10">
                         <p className="text-slate-400 text-sm mb-2">Email:</p>
                         <a
-                            href="mailto:hello@rekayasaai.space"
+                            href="mailto:mail.rekayasaai@gmail.com"
                             className="text-electric text-xl font-bold hover:underline flex items-center justify-center gap-2"
                         >
-                            hello@rekayasaai.space
+                            mail.rekayasaai@gmail.com
                             <ArrowRight className="w-5 h-5" />
                         </a>
                         <p className="text-slate-500 text-sm mt-4">

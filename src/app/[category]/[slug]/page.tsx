@@ -11,6 +11,7 @@ import { generatePostMetadata } from '@/lib/metadata';
 
 import PostHeader from '@/components/blog/PostHeader';
 import PostCard from '@/components/blog/PostCard';
+import ShareButtons from '@/components/blog/ShareButtons';
 import ArticleSchema from '@/components/seo/ArticleSchema';
 
 // Revalidate every 60 seconds - enables ISR for fresh content without redeployment
@@ -19,7 +20,7 @@ import AIAnalogy from '@/components/mdx/AIAnalogy';
 import ProTip from '@/components/mdx/ProTip';
 import KeyTakeaway from '@/components/mdx/KeyTakeaway';
 import CodeBlock from '@/components/mdx/CodeBlock';
-import AdSlot, { PopunderAd, SmartLink, SocialBar } from '@/components/mdx/AdSlot';
+import AdSlot, { PopunderAd, SmartLink } from '@/components/mdx/AdSlot';
 
 interface PostPageProps {
     params: Promise<{
@@ -202,37 +203,12 @@ export default async function PostPage({ params }: PostPageProps) {
                         </div>
                     </div>
 
-                    {/* Share and Navigation */}
-                    <div className="mt-10 flex flex-wrap items-center justify-between gap-4 pt-8 border-t border-slate-200">
-                        <Link
-                            href={`/${categorySlug}`}
-                            className="inline-flex items-center gap-2 text-slate-600 hover:text-electric transition-colors font-medium"
-                        >
-                            <ArrowLeft className="w-4 h-4" />
-                            Kembali ke {category.nameBahasa}
-                        </Link>
-
-                        <div className="flex items-center gap-3">
-                            <span className="text-sm text-slate-500">Bagikan:</span>
-                            <a
-                                href={`https://twitter.com/intent/tweet?url=https://blog.rekayasaai.space/${categorySlug}/${slug}&text=${encodeURIComponent(post.title)}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center hover:bg-electric/10 hover:text-electric transition-all duration-200"
-                                title="Share on Twitter"
-                            >
-                                𝕏
-                            </a>
-                            <a
-                                href={`https://www.linkedin.com/shareArticle?mini=true&url=https://blog.rekayasaai.space/${categorySlug}/${slug}&title=${encodeURIComponent(post.title)}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center hover:bg-electric/10 hover:text-electric transition-all duration-200 text-sm font-bold"
-                                title="Share on LinkedIn"
-                            >
-                                in
-                            </a>
-                        </div>
+                    {/* Share */}
+                    <div className="mt-10 pt-8 border-t border-slate-200">
+                        <ShareButtons
+                            url={`https://blog.rekayasaai.space/${categorySlug}/${slug}`}
+                            title={post.title}
+                        />
                     </div>
                 </div>
             </article>
@@ -264,16 +240,38 @@ export default async function PostPage({ params }: PostPageProps) {
                 </section>
             )}
 
-            {/* Native Banner Ad (before footer) */}
+            {/* Smart Link Promo Card (before footer) */}
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-                <AdSlot type="native-banner" />
+                <a
+                    href="https://www.effectivegatecpm.com/fkqjxcx6?key=8a49bdb3f699e4666d5d07e3864912ae"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group block bg-gradient-to-br from-amber-50 via-orange-50 to-rose-50 rounded-2xl border border-amber-200/50 overflow-hidden hover:shadow-xl hover:shadow-amber-500/10 transition-all duration-300"
+                >
+                    <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-rose-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="relative p-8 flex flex-col items-center justify-center text-center">
+                        <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-orange-500/20 group-hover:scale-110 transition-transform">
+                            <span className="text-3xl">✨</span>
+                        </div>
+                        <span className="px-3 py-1 bg-amber-100 text-amber-700 text-xs font-semibold rounded-full mb-3">
+                            REKOMENDASI
+                        </span>
+                        <h3 className="text-xl font-bold text-slate-800 mb-2 group-hover:text-amber-700 transition-colors">
+                            Penawaran Spesial Untukmu
+                        </h3>
+                        <p className="text-slate-600 mb-4 max-w-md">
+                            Temukan konten menarik dan penawaran eksklusif yang mungkin Anda sukai
+                        </p>
+                        <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-xl shadow-lg shadow-orange-500/25 group-hover:shadow-xl group-hover:shadow-orange-500/30 transition-all">
+                            Lihat Sekarang
+                            <ArrowRight className="w-4 h-4" />
+                        </span>
+                    </div>
+                </a>
             </div>
 
             {/* Popunder Ad (loads once) */}
             <PopunderAd />
-
-            {/* Social Bar Ad (article pages only) */}
-            <SocialBar />
         </>
     );
 }
