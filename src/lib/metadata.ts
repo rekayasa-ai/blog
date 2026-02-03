@@ -133,8 +133,7 @@ export function generateDefaultMetadata(): Metadata {
             },
         },
         verification: {
-            // Add your verification codes here
-            // google: 'your-google-verification-code',
+            google: 'JN5ANrr6UZc2AOorNREV5vVbVdA_d4Xr51Y4Yn0rbU4',
         },
     };
 }
