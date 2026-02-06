@@ -4,6 +4,7 @@ import "./globals.css";
 import { generateDefaultMetadata } from "@/lib/metadata";
 import BlogNavbar from "@/components/layout/BlogNavbar";
 import BlogFooter from "@/components/layout/BlogFooter";
+import { SocialBar } from "@/components/mdx/AdSlot";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -30,7 +31,9 @@ export default function RootLayout({
           {children}
         </main>
         <BlogFooter />
+        <SocialBar delay={5000} sessionOnly={true} />
       </body>
     </html>
   );
 }
+

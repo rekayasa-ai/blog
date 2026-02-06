@@ -171,14 +171,6 @@ export default async function PostPage({ params }: PostPageProps) {
                     {/* Ad Slot - Native Banner */}
                     <AdSlot type="native-banner" className="mt-12" />
 
-                    {/* Sponsored Link */}
-                    <div className="mt-6 text-center">
-                        <SmartLink className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-electric transition-colors">
-                            <span className="px-2 py-0.5 bg-slate-100 rounded text-xs font-medium">Sponsored</span>
-                            Lihat penawaran menarik lainnya →
-                        </SmartLink>
-                    </div>
-
                     {/* Author Box */}
                     <div className="mt-14 p-8 bg-slate-50 rounded-2xl border border-slate-100">
                         <div className="flex items-start gap-5">
@@ -240,37 +232,7 @@ export default async function PostPage({ params }: PostPageProps) {
                 </section>
             )}
 
-            {/* Smart Link Promo Card (before footer) */}
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-                <a
-                    href="https://www.effectivegatecpm.com/fkqjxcx6?key=8a49bdb3f699e4666d5d07e3864912ae"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group block bg-gradient-to-br from-amber-50 via-orange-50 to-rose-50 rounded-2xl border border-amber-200/50 overflow-hidden hover:shadow-xl hover:shadow-amber-500/10 transition-all duration-300"
-                >
-                    <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-rose-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="relative p-8 flex flex-col items-center justify-center text-center">
-                        <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-orange-500/20 group-hover:scale-110 transition-transform">
-                            <span className="text-3xl">✨</span>
-                        </div>
-                        <span className="px-3 py-1 bg-amber-100 text-amber-700 text-xs font-semibold rounded-full mb-3">
-                            REKOMENDASI
-                        </span>
-                        <h3 className="text-xl font-bold text-slate-800 mb-2 group-hover:text-amber-700 transition-colors">
-                            Penawaran Spesial Untukmu
-                        </h3>
-                        <p className="text-slate-600 mb-4 max-w-md">
-                            Temukan konten menarik dan penawaran eksklusif yang mungkin Anda sukai
-                        </p>
-                        <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-xl shadow-lg shadow-orange-500/25 group-hover:shadow-xl group-hover:shadow-orange-500/30 transition-all">
-                            Lihat Sekarang
-                            <ArrowRight className="w-4 h-4" />
-                        </span>
-                    </div>
-                </a>
-            </div>
-
-            {/* Popunder Ad (loads once) */}
+            {/* Popunder Ad (loads once, delayed) */}
             <PopunderAd />
         </>
     );

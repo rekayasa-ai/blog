@@ -92,7 +92,7 @@ export default async function HomePage() {
               <p className="text-slate-600 text-lg">Konten terbaru dari tim Rekayasa AI</p>
             </div>
             <Link
-              href="/artikel"
+              href="/semua-artikel"
               className="hidden sm:inline-flex items-center gap-2 px-6 py-3 bg-slate-100 text-slate-700 font-semibold rounded-xl hover:bg-electric hover:text-white transition-all duration-300"
             >
               Lihat Semua
@@ -119,7 +119,7 @@ export default async function HomePage() {
           {/* Mobile CTA */}
           <div className="sm:hidden text-center mt-10">
             <Link
-              href="/artikel"
+              href="/semua-artikel"
               className="inline-flex items-center gap-2 px-6 py-3 bg-electric text-white font-semibold rounded-xl"
             >
               Lihat Semua Artikel

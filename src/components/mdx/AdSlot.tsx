@@ -161,13 +161,132 @@ export function SmartLink({
     );
 }
 
-// Social Bar component (fixed position bar)
-export function SocialBar() {
+// Social Bar component - Custom wrapper with elegant design
+// Creates a visible slide-up bar that contains the Adsterra ad script
+export function SocialBar({
+    delay = 5000,
+    sessionOnly = true
+}: {
+    delay?: number;
+    sessionOnly?: boolean;
+}) {
+    const [isVisible, setIsVisible] = useState(false);
+    const [isDismissed, setIsDismissed] = useState(false);
+    const [isClient, setIsClient] = useState(false);
+    const adContainerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        setIsClient(true);
+
+        // Check if user has dismissed the bar before
+        const storage = sessionOnly ? sessionStorage : localStorage;
+        const wasDismissed = storage.getItem('socialBarDismissed') === 'true';
+
+        if (wasDismissed) {
+            setIsDismissed(true);
+            return;
+        }
+
+        // Show bar after delay
+        const timer = setTimeout(() => {
+            setIsVisible(true);
+        }, delay);
+
+        return () => clearTimeout(timer);
+    }, [delay, sessionOnly]);
+
+    // Load the ad script when visible
+    useEffect(() => {
+        if (!isVisible || !adContainerRef.current || isDismissed) return;
+
+        // Clear previous content
+        adContainerRef.current.innerHTML = '';
+
+        // Create and inject the Adsterra script
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://pl28623810.effectivegatecpm.com/a8/dd/22/a8dd2252d768d071d06bd30e4bac231a.js';
+        adContainerRef.current.appendChild(script);
+
+        return () => {
+            if (adContainerRef.current) {
+                adContainerRef.current.innerHTML = '';
+            }
+        };
+    }, [isVisible, isDismissed]);
+
+    const handleDismiss = () => {
+        setIsVisible(false);
+
+        // Store dismissal preference
+        const storage = sessionOnly ? sessionStorage : localStorage;
+        storage.setItem('socialBarDismissed', 'true');
+
+        // Clean up after animation
+        setTimeout(() => setIsDismissed(true), 400);
+    };
+
+    if (isDismissed || !isClient) return null;
+
     return (
-        <Script
-            id="adsterra-social-bar"
-            strategy="afterInteractive"
-            src="https://pl28623810.effectivegatecpm.com/a8/dd/22/a8dd2252d768d071d06bd30e4bac231a.js"
-        />
+        <div
+            className={`fixed bottom-0 left-0 right-0 z-[99999] transform transition-all duration-500 ease-out ${isVisible
+                    ? 'translate-y-0 opacity-100'
+                    : 'translate-y-full opacity-0'
+                }`}
+        >
+            {/* Main container with glassmorphism effect */}
+            <div className="relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border-t border-white/10 shadow-2xl">
+                {/* Decorative top gradient line */}
+                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500/60 to-transparent" />
+
+                {/* Content wrapper */}
+                <div className="relative flex items-center justify-between px-4 py-3">
+                    {/* Sponsor label */}
+                    <div className="flex-shrink-0 mr-4">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-slate-400 backdrop-blur-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-70">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M12 16v-4M12 8h.01" />
+                            </svg>
+                            Sponsor
+                        </span>
+                    </div>
+
+                    {/* Ad content area */}
+                    <div
+                        ref={adContainerRef}
+                        className="flex-1 flex items-center justify-center min-h-[50px] overflow-hidden"
+                    >
+                        {/* Placeholder while ad loads */}
+                        <div className="flex items-center gap-3 text-slate-500">
+                            <div className="flex gap-1">
+                                <div className="w-2 h-2 rounded-full bg-blue-500/50 animate-pulse" style={{ animationDelay: '0ms' }} />
+                                <div className="w-2 h-2 rounded-full bg-blue-500/50 animate-pulse" style={{ animationDelay: '150ms' }} />
+                                <div className="w-2 h-2 rounded-full bg-blue-500/50 animate-pulse" style={{ animationDelay: '300ms' }} />
+                            </div>
+                            <span className="text-xs text-slate-500">Loading...</span>
+                        </div>
+                    </div>
+
+                    {/* Close button */}
+                    <button
+                        onClick={handleDismiss}
+                        className="flex-shrink-0 ml-4 flex items-center gap-1.5 rounded-full bg-white/10 hover:bg-white/20 px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white transition-all duration-200 hover:scale-105"
+                        aria-label="Tutup iklan"
+                        title="Tutup"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M18 6L6 18M6 6l12 12" />
+                        </svg>
+                        Tutup
+                    </button>
+                </div>
+
+                {/* Subtle inner shadow for depth */}
+                <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+            </div>
+        </div>
     );
 }
+
