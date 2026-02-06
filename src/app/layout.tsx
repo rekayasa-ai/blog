@@ -31,7 +31,7 @@ export default function RootLayout({
           {children}
         </main>
         <BlogFooter />
-        <SocialBar delay={5000} sessionOnly={true} />
+        <SocialBar delay={30000} sessionOnly={true} />
       </body>
     </html>
   );

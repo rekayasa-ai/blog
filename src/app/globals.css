@@ -543,6 +543,19 @@ code:not(pre code) {
 }
 
 /* ========================================
+   Adsterra Social Bar - Scaled Down
+   ======================================== */
+
+/* Target Adsterra Social Bar container and scale it down */
+[id*="social-bar"],
+[class*="social-bar"],
+div[style*="position: fixed"][style*="z-index: 999999"],
+div[style*="position: fixed"][style*="z-index: 2147483647"] {
+  transform: scale(0.8) !important;
+  transform-origin: top right !important;
+}
+
+/* ========================================
    Animations
    ======================================== */
 
