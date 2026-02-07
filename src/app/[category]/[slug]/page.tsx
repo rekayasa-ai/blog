@@ -19,6 +19,8 @@ export const revalidate = 60;
 import AIAnalogy from '@/components/mdx/AIAnalogy';
 import ProTip from '@/components/mdx/ProTip';
 import KeyTakeaway from '@/components/mdx/KeyTakeaway';
+import TLDR from '@/components/mdx/TLDR';
+import Notes from '@/components/mdx/Notes';
 import CodeBlock from '@/components/mdx/CodeBlock';
 import AdSlot, { PopunderAd, SmartLink } from '@/components/mdx/AdSlot';
 
@@ -34,6 +36,8 @@ const mdxComponents = {
     AIAnalogy,
     ProTip,
     KeyTakeaway,
+    TLDR,
+    Notes,
     CodeBlock,
     AdSlot,
     SmartLink,
@@ -77,19 +81,29 @@ const mdxComponents = {
         </blockquote>
     ),
     table: ({ children, ...props }: React.HTMLAttributes<HTMLTableElement>) => (
-        <div className="overflow-x-auto my-8 rounded-xl border border-slate-200">
-            <table className="min-w-full divide-y divide-slate-200" {...props}>
+        <div className="overflow-hidden my-10 rounded-2xl">
+            <table className="min-w-full" {...props}>
                 {children}
             </table>
         </div>
     ),
+    thead: ({ children, ...props }: React.HTMLAttributes<HTMLTableSectionElement>) => (
+        <thead className="bg-gradient-to-r from-navy via-navy/95 to-navy" {...props}>
+            {children}
+        </thead>
+    ),
     th: ({ children, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
-        <th className="px-5 py-4 bg-slate-50 text-left text-sm font-semibold text-slate-900" {...props}>
+        <th className="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider" {...props}>
             {children}
         </th>
     ),
+    tr: ({ children, ...props }: React.HTMLAttributes<HTMLTableRowElement>) => (
+        <tr className="transition-colors duration-200 hover:bg-electric/[0.03] even:bg-slate-50/50" {...props}>
+            {children}
+        </tr>
+    ),
     td: ({ children, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
-        <td className="px-5 py-4 text-sm text-slate-600 border-b border-slate-100" {...props}>
+        <td className="px-6 py-4 text-sm text-slate-700 border-b border-slate-100/80 first:font-semibold first:text-slate-900" {...props}>
             {children}
         </td>
     ),
